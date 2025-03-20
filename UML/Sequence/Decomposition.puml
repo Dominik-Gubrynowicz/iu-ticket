@@ -1,0 +1,27 @@
+@startuml Registration and Authentication with OIDC
+
+actor User
+participant "Frontend Application" as Frontend
+participant "Ticket Management System\nBackend" as Backend
+participant "LLM API" as LLM
+
+User -> Frontend: Clicks on decompose ticket button"
+Frontend -> Backend: Sends request to decompose current ticket
+Backend -> Backend: Validate user token and access to the ticket
+Backend -> Backend: Prepare a prompt with ticket title and description as context
+Backend -> LLM: Send prepared prompt to LLM API
+LLM -> Backend: Returns a list of proposed tickets
+Backend -> LLM: Validate the proposed tickets
+LLM -> Backend: Returns the validation result of the proposed tickets
+Backend -> Backend: Convert tickets to the list of ticket DTOs
+Backend -> Frontend: Returns the list of ticket DTOs
+Frontend -> User: Display the list of proposed tickets
+User -> Frontend: Accepts a proposed ticket decomposition
+Frontend -> Backend: Sends a request to finish the ticket decomposition
+Backend -> Backend: Validate user token and access to the ticket
+Backend -> Backend: Save new tickets, remove current ticket
+Backend -> Frontend: Returns the new ticket list
+Frontend -> User: Display the new ticket list
+
+
+@enduml

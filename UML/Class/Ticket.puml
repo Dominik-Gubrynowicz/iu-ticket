@@ -1,0 +1,56 @@
+@startuml Ticket Management System - Extended Class Diagram
+
+left to right direction
+
+' Define classes with attributes and methods
+class User {
+  -id: Long
+  -email: String
+  -username: String
+  +delete(): void
+  +validateToken(token: String): Boolean
+  +getUserConfig(): UserConfig
+  +getTickets(status: TicketStatus): List<Ticket>
+  +getSharedTickets(status: TicketStatus): List<Ticket>
+}
+
+class Ticket {
+  -id: Long
+  -title: String
+  -description: String
+  -status: TicketStatus
+  -createdAt: DateTime
+  -lastModifiedAt: DateTime
+  -dueDate: DateTime
+  -dueDateReminderId: Long
+  -userId: Long
+  +modify(title: String, description: String, dueDate: DateTime): Ticket
+  +delete(): void
+  +decompose(): List<Ticket>
+  +getDueDateReminder(): DueDateReminder
+  +getTicketShares(): List<TicketShare>
+}
+
+class TicketShare {
+  -id: Long
+  -ticketId: Long
+  -sharedWithId: Long
+  -sharedAt: DateTime
+  +delete(): void
+}
+
+class DueDateReminder {
+  -id: Long
+  -ticketId: Long
+  -reminderDate: DateTime
+  -isCompleted: Boolean
+  +modify(reminderDate: DateTime, isCompleted: boolean): DueDateReminder
+  +delete(): void
+} 
+
+User "1" -- "0..*" Ticket : owns >
+Ticket "1" -- "0..*" TicketShare : has >
+User "1..*" -- "0..*" TicketShare : shared with <
+Ticket "1" -- "0..1" DueDateReminder : has >
+
+@enduml

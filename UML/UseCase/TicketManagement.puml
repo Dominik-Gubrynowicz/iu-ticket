@@ -1,0 +1,38 @@
+```plantuml
+@startuml Ticket Management System Use Cases
+
+' Actors
+:User: as user
+:LLM API: as llm
+
+' Use case packages
+rectangle "Ticket Management System" {
+  usecase "Create Ticket" as createTicket
+  usecase "Set Attributes" as setTicketAttributes
+  usecase "Set Modification Date" as updateModificationDate
+  usecase "View ticket" as viewTicket
+  
+  usecase "Modify Ticket" as modifyTicket
+  usecase "Decompose Ticket" as decomposeTicket
+  
+  usecase "Change Ticket Statsus" as changeTicketStatus
+  usecase "Delete Ticket" as deleteTicket
+}
+
+' Relationships
+user --> createTicket
+user --> modifyTicket
+user --> changeTicketStatus
+user --> viewTicket
+user --> deleteTicket
+llm <--> decomposeTicket
+
+createTicket ..> setTicketAttributes : <<include>>
+createTicket ..> updateModificationDate : <<include>>
+
+modifyTicket ..> setTicketAttributes : <<include>>
+modifyTicket ..> updateModificationDate : <<include>>
+modifyTicket ..>  decomposeTicket : <<include>>
+
+@enduml
+```

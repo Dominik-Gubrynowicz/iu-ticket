@@ -1,0 +1,23 @@
+@startuml Registration and Authentication with OIDC
+
+actor User
+participant "Frontend Application" as Frontend
+participant "Ticket Management System\nBackend" as Backend
+participant "OIDC Identity Provider\n(Google, Facebook, etc.)" as OIDC
+
+User -> Frontend: Clicks "Sign in with [Provider]"
+Frontend -> OIDC: Redirects to OIDC provider page
+OIDC -> User: Displays login/consent screen
+User -> OIDC: Provides credentials and consent
+OIDC -> Frontend: Redirects with authorization code
+Frontend -> Backend: Sends authorization code to backend
+Backend -> OIDC: Exchanges code for a token (token endpoint)
+OIDC -> Backend: Returns ID token, access token
+Backend -> Frontend: Returns bearer token and user data
+Frontend -> Frontend: Stores bearer token
+Frontend -> Backend: Gets user data using a token
+Backend -> Backend: Creates new user record if not exists
+Backend -> Frontend: Returns user data
+Frontend -> User: Redirects to app home page
+
+@enduml

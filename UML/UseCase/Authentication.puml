@@ -1,0 +1,23 @@
+@startuml Ticket Management System Use Cases
+
+' Actors
+:User: as user
+:Social Media Provider: as social
+
+' Use case packages
+rectangle "Ticket Management System" {
+  usecase "Login" as login
+  usecase "Register" as register
+  usecase "Logout" as logout
+  usecase "Delete Account" as delete
+}
+
+' Relationships
+user --> login
+user --> logout
+user --> register
+user --> delete
+social <--> login
+social <--> register
+
+@enduml

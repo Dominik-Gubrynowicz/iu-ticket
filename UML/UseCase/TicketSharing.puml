@@ -1,0 +1,18 @@
+@startuml Ticket Management System Use Cases
+
+' Actors
+:User: as user
+
+' Use case packages
+rectangle "Ticket Management System" {
+  usecase "Share Ticket" as share
+  usecase "View Shared Ticket" as view
+  usecase "Manage Shared Ticket Status" as status
+}
+
+' Relationships
+user --> share
+user --> view
+user --> status
+
+@enduml

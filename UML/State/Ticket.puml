@@ -1,0 +1,22 @@
+@startuml
+
+left to right direction
+
+skinparam state {
+    BackgroundColor LightBlue
+    BorderColor Black
+    ArrowColor Black
+}
+
+[*] --> Backlog : Ticket Created
+
+Backlog --> Todo : Move to Todo
+Todo --> InProgress : Start Work
+InProgress --> Done : Complete Work
+
+Todo --> Backlog : Return to Backlog
+InProgress --> Todo : Work Halted
+
+Done --> [*] : Archive Ticket
+
+@enduml

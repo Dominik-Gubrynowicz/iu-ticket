@@ -1,0 +1,32 @@
+@startuml
+skinparam ActivityBackgroundColor LightBlue
+skinparam ActivityBorderColor Black
+skinparam ArrowColor Black
+
+start
+
+:API request to get ticket received;
+
+:Retrieve authentication token from request header;
+
+if (Token valid?) then (yes)
+
+    :Retrieve user email from token;
+    :Get current user data;
+    :Get ticket data;
+    :Check if user is ticket owner;
+    if (User is ticket owner?) then (yes)
+        :Return ticket data;
+    else (no)
+        if (Check if a ticket is shared with user?) then (yes)
+            :Return ticket data;
+        else (no)
+            :Return 403 Forbidden;
+        endif
+    endif
+else (no)
+  :Return 401 Unauthorized;
+endif
+
+stop
+@enduml

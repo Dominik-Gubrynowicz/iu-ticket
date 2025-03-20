@@ -1,0 +1,33 @@
+@startuml
+skinparam ActivityBackgroundColor LightBlue
+skinparam ActivityBorderColor Black
+skinparam ArrowColor Black
+
+start
+
+:Connect to Database;
+
+:Query for Reminders With Current DueDate;
+
+if (Pending Reminders Found?) then (yes)
+  :Fetch Reminder Details;
+  
+  partition "Sending Process" {
+    while (Reminders in Batch?) is (yes)
+      :Get Next Reminder;
+      
+      :Compose Email;
+      :Send Email Notification;
+      
+      :Update Reminder Status to Completed;
+      :Log Sending Activity;
+    endwhile (no)
+  }
+else (no)
+  :Log "No Pending Reminders";
+endif
+
+:Release Database Connection;
+
+stop
+@enduml

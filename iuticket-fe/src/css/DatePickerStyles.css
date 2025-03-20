@@ -1,0 +1,188 @@
+/* Custom styles for React DatePicker - Modern Version */
+/* Container styles */
+.react-datepicker-wrapper {
+    display: block;
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container {
+    display: block;
+    width: 100%;
+  }
+  
+  /* Ensure the DatePicker shows above other elements */
+  .react-datepicker-popper {
+    z-index: 9999 !important;
+  }
+  
+  /* Calendar container with modern glass-like effect */
+  .react-datepicker {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+  
+  /* Header styles with gradient background */
+  .react-datepicker__header {
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    border-bottom: none;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    padding: 1rem 0.5rem 0.5rem;
+    color: white;
+  }
+  
+  .react-datepicker__current-month {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Triangle icons for navigation */
+  .react-datepicker__navigation {
+    top: 1.25rem;
+    transition: transform 0.15s ease;
+  }
+  
+  .react-datepicker__navigation:hover {
+    transform: scale(1.15);
+  }
+  
+  .react-datepicker__navigation--previous {
+    left: 1.25rem;
+    border-right-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .react-datepicker__navigation--next {
+    right: 1.25rem;
+    border-left-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Day name styles */
+  .react-datepicker__day-name {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    width: 2.25rem;
+    line-height: 2.25rem;
+    margin: 0.2rem;
+  }
+  
+  /* Month container with padding */
+  .react-datepicker__month-container {
+    float: left;
+    padding: 0 0 0.75rem;
+  }
+  
+  .react-datepicker__month {
+    margin: 0.75rem 0 0;
+    padding: 0 0.5rem;
+  }
+  
+  /* Day styles */
+  .react-datepicker__day {
+    color: #1f2937;
+    width: 2.25rem;
+    line-height: 2.25rem;
+    margin: 0.2rem;
+    border-radius: 50%;
+    transition: all 0.15s ease;
+  }
+  
+  .react-datepicker__day:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.1);
+  }
+  
+  .react-datepicker__day--today {
+    font-weight: 600;
+    color: #4f46e5;
+  }
+  
+  .react-datepicker__day--selected {
+    background-color: #4f46e5;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(79, 70, 229, 0.5);
+  }
+  
+  .react-datepicker__day--keyboard-selected {
+    background-color: rgba(79, 70, 229, 0.2);
+    color: #4f46e5;
+  }
+  
+  /* Outside month days styling */
+  .react-datepicker__day--outside-month {
+    color: #9ca3af;
+    opacity: 0.6;
+  }
+  
+  /* Disabled days */
+  .react-datepicker__day--disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+  }
+  
+  .react-datepicker__day--disabled:hover {
+    background-color: transparent;
+    transform: none;
+  }
+  
+  /* Triangle at the top of calendar popper */
+  .react-datepicker__triangle {
+    display: none;
+  }
+  
+  /* Special behavior for weekends */
+  .react-datepicker__day:nth-child(1), /* Sunday */
+  .react-datepicker__day:nth-child(7) { /* Saturday */
+    color: #ef4444;
+  }
+  
+  /* Animation for popup */
+  @keyframes calendarFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .react-datepicker-popper {
+    animation: calendarFadeIn 0.2s ease-out forwards;
+  }
+
+  /* Custom positioning class */
+.custom-positioned-datepicker {
+    position: fixed !important;
+    inset: auto !important;
+    transform: none !important;
+    will-change: auto !important;
+    margin: 0 !important;
+  }
+  
+  /* Ensure the popper doesn't have any transitions that would override our custom positioning */
+  .react-datepicker-popper[data-placement^="bottom"] {
+    transition: none !important;
+  }
+  
+  /* Adjust the animation to work with fixed positioning */
+  @keyframes calendarFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(0) !important;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) !important;
+    }
+  }
