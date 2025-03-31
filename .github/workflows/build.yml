@@ -39,7 +39,7 @@ jobs:
       - name: Build and push Docker image
         working-directory: iuticket
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/iuticket-app:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/iuticket-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/iuticket-app:latest
 
   build-frontend:
@@ -60,7 +60,7 @@ jobs:
         working-directory: iuticket-fe
         run: |
           npm install
-          npm run build -- mode=production
+          npm run build -- --mode production
 
       # Set up Docker
       - name: Log in to Docker Hub
