@@ -15,7 +15,6 @@ function Backlog() {
   const [searchTerm, setSearchTerm] = useState('');
   
   useEffect(() => {
-    // Don't fetch if token is missing
     if (!token) {
       console.warn("No token available");
       return;
@@ -43,7 +42,6 @@ function Backlog() {
   }, [token]);
   
   
-  // Function to update ticket status
   const updateTicketStatus = async (ticketId, newStatus) => {
     try {
       const ticketData = { status: newStatus };
@@ -53,7 +51,6 @@ function Backlog() {
         throw new Error(`Failed to update ticket: ${apiError.status}`);
       }
       
-      // Update local state to reflect the change
       setTickets(tickets.map(ticket => 
         ticket.id === ticketId ? { ...ticket, status: newStatus } : ticket
       ));
@@ -79,7 +76,6 @@ function Backlog() {
     }
   };
   
-  // Filter tickets based on status filter and search term
   const filteredTickets = tickets.filter(ticket => {
     const matchesStatus = filterStatus === 'ALL' || ticket.status === filterStatus;
     const matchesSearch = ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -96,13 +92,11 @@ function Backlog() {
     return statusComparison !== 0 ? statusComparison : new Date(a.dueDate) - new Date(b.dueDate);
   });
 
-  // Handle status change from dropdown
   const handleStatusChange = async (e, ticketId) => {
     const newStatus = e.target.value;
     await updateTicketStatus(ticketId, newStatus);
   };
 
-  // Navigate to ticket details with origin information
   const navigateToTicket = (ticketId) => {
     navigate(`/ticket/${ticketId}?origin=backlog`);
   };

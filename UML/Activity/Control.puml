@@ -1,0 +1,28 @@
+@startuml
+
+start
+
+partition "User" {
+    :User initiates ticket modification;
+}
+
+partition Frontend {
+    :Prepare API Call;
+    :Send to Backend API;
+}
+
+partition "Backend Controller" {
+    :Receive Request;
+    :Authenticate;
+    :Authorize;
+    :Perform Validation;
+    :Map request to Model;
+    :Save model;
+}
+
+partition "DBMS" {
+    :Retrieve/Store Data;
+}
+
+stop
+@enduml

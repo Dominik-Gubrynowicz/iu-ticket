@@ -1,0 +1,46 @@
+@startuml IUTicket Deployment Diagram   
+
+actor "Users" as Users
+
+node "Global CDN" as CDN {
+    component "Content Delivery Network" as CDNService
+}
+
+node "S3-Compatible Storage" as S3Storage {
+    component "Static Website Hosting" as FrontendStorage
+}
+
+node "Load Balancer" as LoadBalancer {
+}
+
+node "Kubernetes Cluster" as K8SCluster {
+
+    component "Ingress Controller" as Ingress
+    node "Backend Application" as Backend {   
+    }
+
+}
+
+node "Managed DBMS" {
+    component "Managed PostgreSQL Database" as MainDB
+}
+
+node "External OIDC IdP" as GoogleAuth {
+}
+
+node "External LLM Provider" as LLMProvider {
+}
+
+Users --> CDN : HTTPS
+
+CDN --> FrontendStorage : Static Content
+CDN --> LoadBalancer : Dynamic Content
+LoadBalancer --> Ingress : HTTP
+Ingress --> Backend : HTTP
+Backend --> MainDB : JDBC
+
+Backend --> GoogleAuth : OIDC
+Backend --> LLMProvider : HTTP
+Users --> GoogleAuth : OIDC
+
+@enduml

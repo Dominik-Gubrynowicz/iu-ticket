@@ -1,0 +1,51 @@
+@startuml IUTicket Component Diagram
+
+skinparam linetype ortho
+
+
+component "Frontend" {
+  package "Api Services" as fe_api_service {
+    interface "User API" as user_api
+    interface "Ticket API" as ticket_api
+    interface "Auth API" as auth_api
+  }
+}
+
+component "Backend" {
+  package "User" as user {
+    package "User Models" as user_models {}
+    package "User Controllers" as user_controllers {}
+  }
+  package "Auth" as auth {
+    package "Auth Controllers" as auth_controllers {}
+    package "Auth Services" as auth_services {}
+  }
+  package "Ticket" as ticket {
+    package "Ticket Models" as ticket_models {}
+    package "Ticket Services" as ticket_services {}
+    package "Ticket Controllers" as ticket_controllers {}
+  }
+}
+
+component "Postgres Database" as postgres {
+}
+
+component "External OIDC IdP" as google_auth {
+
+}
+component "External LLM provider" as llm_provider {
+
+}
+
+user_api ..> user_controllers : HTTP
+ticket_api ..> ticket_controllers : HTTP
+auth_api ..> auth_controllers : HTTP
+
+user_models ..> postgres : JDBC
+ticket_models ..> postgres : JDBC
+
+auth_services ..> google_auth : OIDC (HTTP)
+
+ticket_services ..> llm_provider : HTTP
+
+@enduml

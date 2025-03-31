@@ -1,0 +1,48 @@
+@startuml IUTicket Package Diagram
+
+skinparam linetype ortho
+
+
+' Packages
+component "Backend" {
+
+package "User" as user {
+    package "User Models" as user_models {}
+    package "User Repositories" as user_repositories {}
+    package "User Dtos" as user_dtos {}
+    package "User Services" as user_services {}
+    package "User Controllers" as user_controllers {}
+}
+user_repositories ..> user_models : <<uses>>
+user_services ..> user_dtos : <<uses>>
+user_services ..> user_repositories : <<uses>>
+user_controllers ..> user_services : <<uses>>
+
+package "Auth" as auth {
+    package "Auth Dtos" as auth_dtos {}
+    package "Auth Services" as auth_services {}
+    package "Auth Controllers" as auth_controllers {}
+}
+auth_services ..> auth_dtos : <<uses>>
+auth_controllers ..> auth_services : <<uses>>
+
+package "Ticket" as ticket {
+    package "Ticket Models" as ticket_models {}
+    package "Ticket Repositories" as ticket_repositories {}
+    package "Ticket Dtos" as ticket_dtos {}
+    package "Ticket Services" as ticket_services {}
+    package "Ticket Controllers" as ticket_controllers {}
+}
+}
+
+ticket_repositories ..> ticket_models : <<uses>>
+ticket_services ..> ticket_dtos : <<uses>>
+ticket_services ..> ticket_repositories : <<uses>>
+ticket_controllers ..> ticket_services : <<uses>>
+
+
+ticket_services ..> user_services : <<uses>>
+ticket_services ..> auth_services : <<uses>>
+auth_services <..> user_services : <<uses>>
+
+@enduml

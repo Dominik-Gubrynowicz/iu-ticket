@@ -1,0 +1,15 @@
+@startuml Registration and Authentication with OIDC
+
+actor User
+participant "Software" as Software
+participant "LLM API" as LLM
+
+User -> Software: Clicks on decompose ticket button"
+Software -> LLM: Asks LLM API to suggest ticket decomposition
+LLM -> Software: Returns a list of proposed tickets
+Software -> User: Display the list of proposed tickets
+User -> Software: Accepts a proposed ticket decomposition
+Software -> Software: Save new tickets, remove current ticket
+Software -> User: Returns the new ticket list
+
+@enduml

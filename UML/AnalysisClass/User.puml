@@ -1,0 +1,23 @@
+@startuml Ticket Management System - Extended Class Diagram
+
+left to right direction
+
+' Define classes with attributes and methods
+class User {
+  -email
+  -username
+  +validateToken()
+  +revokeTokens()
+  +getTickets()
+  +getSharedTickets()
+}
+
+class UserConfig {
+  -wipLimitTodo
+  -wipLimitInProgress
+  +updateWIP()
+}
+
+User "1" *-- "1" UserConfig : has >
+
+@enduml

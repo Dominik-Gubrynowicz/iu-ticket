@@ -112,14 +112,6 @@ export const authApi = {
       )
     });
   },
-  
-  login: (token) => {
-    return apiRequest('/api/auth/login', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-  },
 
   validateToken: (token) => {
     return apiRequest('/api/auth/validate', {
@@ -146,6 +138,13 @@ export const userApi = {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(userData)
+    });
+  },
+  login: (token) => {
+    return apiRequest('/api/users/login', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     });
   }
 }

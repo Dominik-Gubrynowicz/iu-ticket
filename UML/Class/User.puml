@@ -2,26 +2,50 @@
 
 left to right direction
 
-' Define classes with attributes and methods
-class User {
-  -id: Long
-  -email: String
-  -username: String
-  +delete(): void
-  +validateToken(token: String): Boolean
-  +getUserConfig(): UserConfig
-  +getTickets(status: TicketStatus): List<Ticket>
-  +getSharedTickets(status: TicketStatus): List<Ticket>
+package "User" {
+
+  class UserController {
+    -userService: UserService
+    +getUser(id: Long): UserDTO
+    +createUser(email: String, username: String): UserDTO
+    +deleteUser(id: Long): void
+    +updateUserConfig(id: Long, config: UserConfigDTO): void
+  }
+
+  class UserService {
+    -userRepository: UserRepository
+    +createUser(email: String, username: String): User
+    +deleteUser(id: Long): void
+    +getUser(id: Long): User
+    +getUserConfig(id: Long): UserConfig
+    +updateUserConfig(id: Long, config: UserConfig): void
+    +hasAccessToUser(id: Long): Boolean
+  }
+
+  interface UserRepository {
+    +findById(id: Long): User
+    +save(user: User): User
+    +delete(user: User): void
+  }
+
+  class UserModel {
+    -id: Long
+    -email: String
+    -username: String
+    -userConfig: UserConfigModel
+  }
+
+  class UserConfigModel {
+    -id: Long
+    -userId: Long
+    -wipLimitTodo: Integer
+    -wipLimitInProgress: Integer
+  }
 }
 
-class UserConfig {
-  -id: Long
-  -userId: Long
-  -wipLimitTodo: Integer
-  -wipLimitInProgress: Integer
-  +modify(wipLimitTodo: Integer, wipLimitInProgress: Integer): UserConfig
-}
-
-User "1" -- "1" UserConfig : has >
+UserModel "1" *-- "1" UserConfigModel
+UserModel <.. UserRepository
+UserService ..> UserRepository
+UserController ..> UserService
 
 @enduml

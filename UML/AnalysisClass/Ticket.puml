@@ -1,0 +1,40 @@
+@startuml Ticket Management System - Extended Class Diagram
+
+left to right direction
+
+' Define classes with attributes and methods
+class User {
+  -email
+  -username
+  +validateToken()
+  +getTickets()
+  +getSharedTickets()
+}
+
+class Ticket {
+  -title
+  -description
+  -status
+  -createdAt
+  -lastModifiedAt
+  -dueDate
+  +decompose()
+  +sharedWith()
+}
+
+class TicketShare {
+  -sharedAt
+}
+
+class DueDateReminder {
+  -reminderDate
+  -isCompleted
+  +complete()
+} 
+
+User "1" o-- "0..*" Ticket : owns >
+Ticket "1" o-- "0..*" TicketShare : has >
+User "1..*" o-- "0..*" TicketShare : shared with <
+Ticket "1" *-- "0..1" DueDateReminder : has >
+
+@enduml

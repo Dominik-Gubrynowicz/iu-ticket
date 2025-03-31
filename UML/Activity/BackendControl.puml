@@ -1,0 +1,28 @@
+@startuml
+
+start
+
+partition "User" {
+    :User updates values in a form;
+    :User confirms an action;
+}
+
+partition Frontend {
+    if (Jwt token valida and stored?) then (yes)
+        if (Input is valid?) then (yes)
+            :Prepare API Call;
+            :Send to Backend API;
+        else (no)
+            :Display error message;
+            :Highlight invalid fields;
+            end
+        endif
+    else (no)
+        :Redirect user to login page;
+        end
+    endif
+}
+
+stop
+
+@enduml

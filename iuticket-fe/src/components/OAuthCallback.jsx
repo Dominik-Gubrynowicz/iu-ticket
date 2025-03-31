@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { authApi } from '../services/api';
+import { authApi, userApi } from '../services/api';
 
 function OAuthCallback() {
   const [error, setError] = useState(null);
@@ -12,18 +12,15 @@ function OAuthCallback() {
   const processedRef = useRef(false);
   
   useEffect(() => {
-    // Only run this once
     if (processedRef.current) {
       return;
     }
     
     const handleCallback = async () => {
       try {        
-        // Set the flag to prevent multiple executions
         processedRef.current = true;
         setLoadingStep('authenticating');
         
-        // Extract authorization code from URL
         const searchParams = new URLSearchParams(location.search);
         const code = searchParams.get('code');
         
@@ -31,7 +28,6 @@ function OAuthCallback() {
           throw new Error('No authorization code found');
         }
 
-        // Exchange code for JWT token
         const { data, error: apiError } = await authApi.callback(code);
         
         if (apiError) {
@@ -40,20 +36,16 @@ function OAuthCallback() {
         
         setLoadingStep('loading-profile');
         
-        const { data: userdata, apiError: loginError } = await authApi.login(data.id_token);
+        const { data: userdata, apiError: loginError } = await userApi.login(data.idToken);
 
         if (loginError) {
           throw new Error(apiError);
         }
         
-        console.log('Logged in as:', userdata);
-
-        // Save token and update auth state
-        login(data.id_token, userdata.username, userdata.id);
+        login(data.idToken, userdata.username, userdata.id);
         
         setLoadingStep('redirecting');
         
-        // Redirect to home page after a short delay for better UX
         setTimeout(() => {
           navigate('/');
         }, 1000);
@@ -65,9 +57,8 @@ function OAuthCallback() {
     };
     
     handleCallback();
-  }, [location.search]); // Reduce dependencies to just the search params
+  }, [location.search]);
   
-  // Loading messages based on step
   const loadingMessages = {
     'authenticating': 'Authenticating with Google...',
     'loading-profile': 'Loading your profile...',
@@ -149,7 +140,7 @@ function OAuthCallback() {
       </div>
       
       <p className="mt-8 text-center text-gray-500 text-sm">
-        © 2025 IUTicket. All rights reserved.
+        2025 IUTicket (Dominik Gubrynowicz).
       </p>
     </div>
   );

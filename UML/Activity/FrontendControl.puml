@@ -1,0 +1,37 @@
+@startuml
+
+start
+
+partition "Frontend" {
+    :Initiates request;
+}
+
+partition "Backend" {
+    :Routes request to controller;
+    :Validates JWT token;
+    if (JWT token valid?) then (yes)
+        :Validates user permissions;
+        
+        if (User has permission?) then (yes)
+            :Validates input;
+            :Maps request to model;
+            :Saves model;
+        else (no)
+            :Responds with access denied;
+            stop
+        endif
+
+    else (no)
+        :Responds with unauthorized;
+        stop
+    endif
+}
+
+partition "DBMS" {
+    :Validates data;
+    :Retrieves/Stores data;
+}
+
+stop
+
+@enduml

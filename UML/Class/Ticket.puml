@@ -2,55 +2,86 @@
 
 left to right direction
 
-' Define classes with attributes and methods
-class User {
-  -id: Long
-  -email: String
-  -username: String
-  +delete(): void
-  +validateToken(token: String): Boolean
-  +getUserConfig(): UserConfig
-  +getTickets(status: TicketStatus): List<Ticket>
-  +getSharedTickets(status: TicketStatus): List<Ticket>
+package "Ticket" {
+  class TicketController {
+    -ticketService: TicketService
+    +getAllTickets(): List<TicketDTO>
+    +getTicket(id: Long): TicketDTO
+    +shareTicket(id: Long, userId: Long): TicketShareDTO
+    +unshareTicket(id: Long, userId: Long): void
+    +createTicket(ticket: TicketDTO): TicketDTO
+    +deleteTicket(id: Long): void
+    +updateTicket(id: Long, ticket: TicketDTO): TicketDTO
+    +decomposeTicket(ticketId: Long): List<TicketDTO>
+  }
+
+  class TicketService {
+    -ticketRepository: TicketRepository
+    -isTicketAccessible(Ticket ticket): Boolean
+    +getTicketsForCurrentUser(): List<TicketDTO>
+    +getTicketById(id: Long): TicketDTO
+
+    +createTicket(ticket: TicketDTO): TicketDTO
+    +deleteTicket(id: Long): void
+    +updateTicket(id: Long, ticket: TicketDTO): TicketDTO
+
+    +shareTicket(ticketId: Long, userId: Long): TicketShareDTO
+    +unshareTicket(ticketId: Long, userId: Long): void
+
+    +decomposeTicket(ticketId: Long): List<TicketDTO>
+  }
+
+  interface TicketRepository {
+    +findById(id: Long): Ticket
+    +findByUserId(userId: Long): List<Ticket>
+    +save(ticket: Ticket): Ticket
+    +delete(ticket: Ticket): void
+  }
+
+  class TicketModel {
+    -id: Long
+    -title: String
+    -description: String
+    -status: TicketStatus
+    -createdAt: DateTime
+    -lastModifiedAt: DateTime
+    -dueDate: DateTime
+    -DueDateReminder: DueDateReminderModel
+    -user: UserModel
+    -ticketShares: List<TicketShareModel>
+  }
+
+  class TicketShareModel {
+    -id: Long
+    -ticketId: Long
+    -sharedWithId: Long
+    -sharedAt: DateTime
+  }
+  class DueDateReminderModel {
+    -id: Long
+    -ticketId: Long
+    -reminderDate: DateTime
+    -isCompleted: Boolean
+  }
 }
 
-class Ticket {
-  -id: Long
-  -title: String
-  -description: String
-  -status: TicketStatus
-  -createdAt: DateTime
-  -lastModifiedAt: DateTime
-  -dueDate: DateTime
-  -dueDateReminderId: Long
-  -userId: Long
-  +modify(title: String, description: String, dueDate: DateTime): Ticket
-  +delete(): void
-  +decompose(): List<Ticket>
-  +getDueDateReminder(): DueDateReminder
-  +getTicketShares(): List<TicketShare>
+
+package "User" {
+  class UserModel {
+    -id: Long
+    -email: String
+    -username: String
+    -userConfig: UserConfigModel
+  }
 }
 
-class TicketShare {
-  -id: Long
-  -ticketId: Long
-  -sharedWithId: Long
-  -sharedAt: DateTime
-  +delete(): void
-}
+UserModel "1" o-- "0..*" TicketModel
+TicketModel "1" o-- "0..*" TicketShareModel
+UserModel "1..*" o-- "0..*" TicketShareModel
+TicketModel "1" o-- "0..1" DueDateReminderModel
 
-class DueDateReminder {
-  -id: Long
-  -ticketId: Long
-  -reminderDate: DateTime
-  -isCompleted: Boolean
-  +modify(reminderDate: DateTime, isCompleted: boolean): DueDateReminder
-  +delete(): void
-} 
-
-User "1" -- "0..*" Ticket : owns >
-Ticket "1" -- "0..*" TicketShare : has >
-User "1..*" -- "0..*" TicketShare : shared with <
-Ticket "1" -- "0..1" DueDateReminder : has >
+TicketModel <.. TicketRepository
+TicketService ..> TicketRepository
+TicketController ..> TicketService
 
 @enduml

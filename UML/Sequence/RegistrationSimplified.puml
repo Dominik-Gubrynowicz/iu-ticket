@@ -1,0 +1,15 @@
+@startuml Registration and Authentication with OIDC
+
+actor User
+participant "Application" as Software
+participant "OIDC Identity Provider\n(Google, Facebook, etc.)" as OIDC
+
+User -> Software: Clicks "Sign in with [Provider]"
+Software -> User: Redirects to OIDC provider page
+User -> OIDC: Provides credentials and consent
+OIDC -> User: Redirects with authorization code
+User -> Software: Seds authorization code
+Software -> OIDC: Validates code and requests tokens
+Software -> User : Redirects to app with bearer token
+
+@enduml

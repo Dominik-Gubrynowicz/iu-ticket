@@ -1,0 +1,39 @@
+@startuml IUTicket Management System - Class Diagram
+left to right direction
+
+package "Auth" {
+
+    class AuthController {
+        -authService: AuthService
+        +ssoCallback(oidc: AuthOidcDTO): AuthJwtTokenDTO
+        +logout(): void
+        +validateToken(jwt: AuthJwtTokenDTO): AuthResponseDTO
+        +login(jwt: AuthJwtTokenDTO): UserDTO 
+    }
+    class AuthService {
+        -userService: UserService
+        +exhangeToken(oidc: AuthOidcDTO): AuthJwtTokenDTO
+        +validateToken(jwt: AuthJwtTokenDTO): AuthResponseDTO
+        +logout(): void
+        +login(jwt: AuthJwtTokenDTO): UserDTO
+    }
+
+    class AuthJwtTokenDTO {
+        -token: String
+        -expiresAt: DateTime
+    }
+    class AuthResponseDTO {
+        -valid: Boolean
+    }
+    class AuthOidcDTO {
+        -code: String
+        -redirectUri: String
+    }
+}
+
+AuthController ..> AuthService
+AuthJwtTokenDTO <.. AuthService
+AuthResponseDTO <.. AuthService
+AuthOidcDTO <.. AuthService
+
+@enduml

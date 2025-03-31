@@ -2,7 +2,6 @@ import React from 'react';
 import { formatDate, isDueSoon, isOverdue, getDaysLeft } from "../utils/formatters";
 
 function KanbanColumn({ title, tickets, onDrop, badgeColor, navigate, isOverLimit }) {
-  // Handle drag events
   const handleDragOver = (e) => {
     e.preventDefault();
   };
@@ -13,7 +12,6 @@ function KanbanColumn({ title, tickets, onDrop, badgeColor, navigate, isOverLimi
     onDrop(ticketId);
   };
   
-  // Get appropriate CSS classes for due date indicator
   const getDueDateClasses = (dueDate) => {
     if (!dueDate) return '';
 

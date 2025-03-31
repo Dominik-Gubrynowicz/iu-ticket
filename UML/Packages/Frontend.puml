@@ -1,0 +1,18 @@
+@startuml IUTicket Package Diagram
+
+skinparam linetype ortho
+
+component "Frontend" {
+    package "Login View" as login {}
+    package "Backlog View" as backlog {}
+    package "Ticket View" as ticket {}
+    package "Kanban Board View" as kanban {}
+
+    package "API Service" as api {}
+}
+
+login ..> api
+backlog ..> api
+ticket ..> api
+kanban ..> api
+

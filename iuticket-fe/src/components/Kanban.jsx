@@ -98,7 +98,6 @@ function Kanban() {
         throw new Error(`Failed to update ticket: ${apiError.status}`);
       }
       
-      // Update the ticket in our local state
       setTickets(prevTickets => 
         prevTickets.map(t => 
           t.id === parseInt(ticketId) ? { ...t, status: newStatus } : t
@@ -110,7 +109,6 @@ function Kanban() {
     }
   };
 
-  // Filter tickets by status and search term
   const filteredTickets = tickets.filter(ticket => 
     searchTerm === '' || 
     ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
