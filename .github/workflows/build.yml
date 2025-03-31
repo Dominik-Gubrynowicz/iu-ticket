@@ -33,6 +33,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: iuticket
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/iuticket-app:latest
@@ -74,6 +75,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: iuticket-fe
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/iuticket-frontend:latest
