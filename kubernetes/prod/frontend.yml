@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iuticket-frontend
+  namespace: iuticket
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: iuticket-frontend
+  template:
+    metadata:
+      labels:
+        app: iuticket-frontend
+    spec:
+      containers:
+      - name: iuticket-frontend
+        image: dominikgubrynowicz/iuticket-frontend:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iuticket-frontend-service
+  namespace: iuticket
+spec:
+  selector:
+    app: iuticket-frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

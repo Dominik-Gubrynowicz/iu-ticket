@@ -1,52 +1,72 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: postgres
+  name: iuticket-backend
   namespace: iuticket
 spec:
-  serviceName: postgres
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: postgres
+      app: iuticket-backend
   template:
     metadata:
       labels:
-        app: postgres
+        app: iuticket-backend
     spec:
       containers:
-      - name: postgres
-        image: postgres:17
-        imagePullPolicy: IfNotPresent
+      - name: iuticket-backend
+        image: dominikgubrynowicz/iuticket-app:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "100m"
         ports:
-        - containerPort: 5432
+        - containerPort: 8080
         env:
-        - name: POSTGRES_USER
+        - name: DB_HOST
+          value: postgres
+        - name: DB_USER
           valueFrom:
             secretKeyRef:
               name: iuticket-backend-secret
               key: DB_USER
-        - name: POSTGRES_PASSWORD
+        - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: iuticket-backend-secret
               key: DB_PASSWORD
-        - name: POSTGRES_DB
+        - name: DB_NAME
           valueFrom:
             secretKeyRef:
               name: iuticket-backend-secret
               key: DB_NAME
+        - name: OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: OIDC_CLIENT_SECRET
+        - name: OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: OIDC_CLIENT_ID
+        - name: OIDC_ISSUER_URI
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: OIDC_ISSUER_URI
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: iuticket-backend-service
   namespace: iuticket
 spec:
   selector:
-    app: postgres
+    app: iuticket-backend
   ports:
   - protocol: TCP
-    port: 5432
-    targetPort: 5432
+    port: 8080
+    targetPort: 8080
   type: ClusterIP
