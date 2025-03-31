@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: State
+metadata:
+  name: iuticket-backend
+  namespace: iuticket
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: iuticket-backend
+  template:
+    metadata:
+      labels:
+        app: iuticket-backend
+    spec:
+      containers:
+      - name: iuticket-backend
+        image: dominikgubrynowicz/iuticket-app:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "100m"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: postgres
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: DB_NAME
+        - name: OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: OIDC_CLIENT_SECRET
+        - name: OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: OIDC_CLIENT_ID
+        - name: OIDC_ISSUER_URI
+          valueFrom:
+            secretKeyRef:
+              name: iuticket-backend-secret
+              key: OIDC_ISSUER_URI
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iuticket-backend-service
+  namespace: iuticket
+spec:
+  selector:
+    app: iuticket-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
