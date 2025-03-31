@@ -14,8 +14,7 @@ function Login() {
 
   const handleGoogleLogin = () => {
     const GOOGLE_CLIENT_ID=import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const REDIRECT_PATH=import.meta.env.VITE_GOOGLE_REDIRECT_PATH;
-    const REDIRECT_URI=`${window.location.origin}${REDIRECT_PATH}`
+    const REDIRECT_URI=import.meta.env.VITE_GOOGLE_REDIRECT_URI;
     const SCOPE=import.meta.env.VITE_GOOGLE_OIDC_SCOPE
 
     window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPE}`;
