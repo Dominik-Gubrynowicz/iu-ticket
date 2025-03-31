@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iuticket
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/DominikGubrynowicz/iu-ticket/iuticket.git'
+    targetRevision: HEAD
+    path: prod
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: iuticket
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
