@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/DominikGubrynowicz/iu-ticket/iuticket.git'
+    repoURL: 'git@github.com:Dominik-Gubrynowicz/iu-ticket.git'
     targetRevision: HEAD
-    path: prod
+    path: kubernetes/prod
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: iuticket

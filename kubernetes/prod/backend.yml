@@ -4,7 +4,7 @@ metadata:
   name: iuticket-backend
   namespace: iuticket
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: iuticket-backend
@@ -19,8 +19,8 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "1Gi"
-            cpu: "100m"
+            memory: "2Gi"
+            cpu: "1000m"
         ports:
         - containerPort: 8080
         env:
