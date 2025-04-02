@@ -93,6 +93,7 @@ jobs:
           java-version: '24'
           distribution: 'corretto'
       - name: Build with maven
+        working-directory: iuticket
         run: mvn clean package -DskipTests
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
