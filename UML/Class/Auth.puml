@@ -11,29 +11,26 @@ package "Auth" {
         +login(jwt: AuthJwtTokenDTO): UserDTO 
     }
     class AuthService {
-        -userService: UserService
         +exhangeToken(oidc: AuthOidcDTO): AuthJwtTokenDTO
         +validateToken(jwt: AuthJwtTokenDTO): AuthResponseDTO
         +logout(): void
         +login(jwt: AuthJwtTokenDTO): UserDTO
     }
 
-    class AuthJwtTokenDTO {
+    interface AuthSessionTokenRepository {
+        +save(token: AuthSessionTokenModel): AuthSessionTokenModel
+        +findByToken(id: Long): AuthSessionTokenModel
+    }
+
+    class AuthSessionTokenModel {
+        -id: Long
         -token: String
         -expiresAt: DateTime
-    }
-    class AuthResponseDTO {
-        -valid: Boolean
-    }
-    class AuthOidcDTO {
-        -code: String
-        -redirectUri: String
     }
 }
 
 AuthController ..> AuthService
-AuthJwtTokenDTO <.. AuthService
-AuthResponseDTO <.. AuthService
-AuthOidcDTO <.. AuthService
+AuthSessionTokenModel <.. AuthSessionTokenRepository
+AuthSessionTokenRepository <.. AuthService
 
 @enduml

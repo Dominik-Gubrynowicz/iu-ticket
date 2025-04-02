@@ -17,6 +17,7 @@ component "Backend" {
     package "User Controllers" as user_controllers {}
   }
   package "Auth" as auth {
+    package "Auth Models" as auth_models {}
     package "Auth Controllers" as auth_controllers {}
     package "Auth Services" as auth_services {}
   }
@@ -43,6 +44,7 @@ auth_api ..> auth_controllers : HTTP
 
 user_models ..> postgres : JDBC
 ticket_models ..> postgres : JDBC
+auth_models ..> postgres : JDBC
 
 auth_services ..> google_auth : OIDC (HTTP)
 

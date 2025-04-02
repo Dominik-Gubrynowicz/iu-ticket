@@ -19,12 +19,16 @@ user_services ..> user_repositories : <<uses>>
 user_controllers ..> user_services : <<uses>>
 
 package "Auth" as auth {
+    package "Auth Models" as auth_models {}
+    package "Auth Repositories" as auth_repositories {}
     package "Auth Dtos" as auth_dtos {}
     package "Auth Services" as auth_services {}
     package "Auth Controllers" as auth_controllers {}
 }
 auth_services ..> auth_dtos : <<uses>>
 auth_controllers ..> auth_services : <<uses>>
+auth_repositories ..> auth_models : <<uses>>
+auth_services ..> auth_repositories : <<uses>>
 
 package "Ticket" as ticket {
     package "Ticket Models" as ticket_models {}

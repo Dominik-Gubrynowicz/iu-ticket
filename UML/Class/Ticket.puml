@@ -17,6 +17,7 @@ package "Ticket" {
 
   class TicketService {
     -ticketRepository: TicketRepository
+    -authService: AuthService
     -isTicketAccessible(Ticket ticket): Boolean
     +getTicketsForCurrentUser(): List<TicketDTO>
     +getTicketById(id: Long): TicketDTO

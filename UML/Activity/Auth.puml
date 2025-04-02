@@ -1,7 +1,4 @@
 @startuml
-skinparam ActivityBackgroundColor LightBlue
-skinparam ActivityBorderColor Black
-skinparam ArrowColor Black
 
 start
 

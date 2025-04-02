@@ -14,6 +14,7 @@ package "User" {
 
   class UserService {
     -userRepository: UserRepository
+    -authService: AuthService
     +createUser(email: String, username: String): User
     +deleteUser(id: Long): void
     +getUser(id: Long): User
