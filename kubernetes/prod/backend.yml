@@ -20,7 +20,6 @@ spec:
         resources:
           limits:
             memory: "2Gi"
-            cpu: "1000m"
         ports:
         - containerPort: 8080
         env:
